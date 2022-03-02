@@ -23,6 +23,13 @@ class HomeTableTableViewController: UITableViewController {
         tableView.refreshControl = myRefreshcontrol
     
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadTweets()
+    }
+    
+    
+  
     @objc func loadTweets(){
         
         numberOfTweet = 20
@@ -74,12 +81,6 @@ class HomeTableTableViewController: UITableViewController {
     }
     
     
-    
-    
-    
-    
-    
-    
     @IBAction func onLogout(_ sender: Any) {
         TwitterAPICaller.client?.logout()
         self.dismiss(animated: true, completion: nil)
@@ -103,6 +104,9 @@ class HomeTableTableViewController: UITableViewController {
         if let imageData = data {
             cell.profileImageView.image = UIImage(data: imageData)
         }
+        
+        cell.setFavorite(tweetArray[indexPath.row]["favorited"] as! Bool)
+        cell.tweetId = tweetArray[indexPath.row]["id"] as! Int
         return cell
     }
         // MARK: - Table view data source
